@@ -1,0 +1,20 @@
+{
+  "name": "Geoffs First Gmail Extension",
+  "description": "getting started with searching emails for hiring partners",
+  "version": "0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*",
+        "https://inbox.google.com/*"
+      ],
+      "js": ["inboxsdk.js","link-hiring-partners.js", "jquery.min.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": [
+    "https://mail.google.com/",
+    "https://inbox.google.com/"
+  ],
+  "manifest_version": 2
+}

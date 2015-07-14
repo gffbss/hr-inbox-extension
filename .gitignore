@@ -1,0 +1,8 @@
+VENV 
+.idea/
+
+*.log
+.cache
+*.iml
+
+.DS_Store
