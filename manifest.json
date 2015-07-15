@@ -1,5 +1,5 @@
 {
-  "name": "Geoffs First Gmail Extension",
+  "name": "Hack Reactor Gmail Extension",
   "description": "getting started with searching emails for hiring partners",
   "version": "0.1",
   "content_scripts": [
@@ -8,7 +8,7 @@
         "https://mail.google.com/*",
         "https://inbox.google.com/*"
       ],
-      "js": ["inboxsdk.js","link-hiring-partners.js", "jquery.min.js"],
+      "js": ["jquery.min.js", "inboxsdk.js","link-hiring-partners.js"],
       "run_at": "document_end"
     }
   ],
