@@ -2,7 +2,7 @@ var sidebarForThread = new WeakMap();
 var sidebarTemplatePromise = null;
 
 InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){	
-	// the SDK has been loaded, now do something with it!		
+	// the SDK has been loaded		
 	sdk.Conversations.registerMessageViewHandlerAll(function(messageView){		
 		var threadView = messageView.getThreadView();		
 		var content = messageView.getBodyElement();
@@ -18,28 +18,18 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		// 	}
 		// });	
 
-		var partnerList = myTestString.split(/\s*,\s*/),
-		    wordsFromEmail = rawWords.split(/\s+/g),
-		    i,
-		    j;		    
+		var partnerList = myTestString.split(/\s*,\s*/);
+		var wordsFromEmail = rawWords.split(/\s+/g);	    
 		
 		var partnerTmp = partnerList.join(',').toLowerCase();
 		var emailTmp = wordsFromEmail.join(',').toLowerCase();
 		var partnerArray = partnerTmp.split(',');
 		var emailArray = emailTmp.split(',');
-						
-		// for (i = 0; i < partnerList.length; i++) {
-		// 	for (j = 0; j < wordsFromEmail.length; j++) {
-		// 	    if (partnerList[i].toLowerCase() == wordsFromEmail[j].toLowerCase()) {
-		// 	       console.log('word: '+partnerList[i]+' was found in both strings');
-		// 	       partners.push(partnerList[i] + ' ')			       	
-		// 	    }
-		// 	}
-		// }
+								
 		var newNew = partnerArray.diff(emailArray)		
 		var cleanedArr = cleanUpArray(newNew)
-		//addHiringPartnerSidebar(threadView, cleanedArr);
-		addStripeSidebar(threadView, cleanedArr)
+		// addHiringPartnerSidebar(threadView, cleanedArr);
+		addStripeSidebar(threadView, cleanedArr);
 	});
 
 });
@@ -58,64 +48,67 @@ Array.prototype.diff = function(getPartnerMatches) {
 };
 
 function cleanUpArray(partnersList){
-	var cleanArr = partnersList.join(" ").toUpperCase();	
-	return cleanArr;
+	if (partnersList.length < 2) {
+		return '-- No Partners Found --'
+	} else {
+		var cleanArr = partnersList.join(" ").toUpperCase();	
+		return cleanArr;
+	}	
 }
 
 function addHiringPartnerSidebar(threadView, hiringPartner){	
 	var el = document.createElement('div');
-		el.innerHTML = hiringPartner;
+	// var	el.innerHTML = hiringPartner;
+	el.innerHTML = chrome.runtime.getURL('sidebarTemplate.html');
+
 
 		threadView.addSidebarContentPanel({
-			title: 'Hiring Partners',
-			el: el
+			title: 'HR Hiring Partners',
+			el: el,
+			iconUrl: chrome.runtime.getURL('images/hr-infinity-logo.png')
 		});
+	if (!sidebarTemplatePromise) {
+    	sidebarTemplatePromise = chrome.runtime.getURL('sidebarTemplate.html'), null, null;
+  	}	  	
 }
 
 function addStripeSidebar(threadView, customer) {
 	if (!sidebarForThread.has(threadView)) {
 		sidebarForThread.set(threadView, document.createElement('div'));
-
+		
 		threadView.addSidebarContentPanel({
 			el: sidebarForThread.get(threadView),
 			title: "HR Hiring Partners",
-			iconUrl: chrome.runtime.getURL('images/stripe.png')
+			iconUrl: chrome.runtime.getURL('images/hr-infinity-logo.png')
 		});
 	}
 
-  if (!sidebarTemplatePromise) {
-    sidebarTemplatePromise = get(chrome.runtime.getURL('sidebarTemplate.html'), null, null);
-  }
+	if (!sidebarTemplatePromise) {		
+	    sidebarTemplatePromise = get(chrome.runtime.getURL('sidebarTemplate.html'), null, null);
+	}
 
-  Promise.all([    	   
-    sidebarTemplatePromise
-  ])
-  .then(function(results) {
-  	console.log(results[i])
-  	// for (var i = 0; i < results.length; i++){
-  	// 	console.log(results[i]);
-  	// 	console.log('--------');
-  	// }  	
-  //   var invoices = results[0];
-		// var charges = results[1];
-  //   var subscriptions = results[2];
-		// var html = results[3];
+	Promise.all([		
+	  	customer,    		    
+	    sidebarTemplatePromise
+	])
+	.then(function(results) {  		  	
+		var customer = results[0]; 		    
+		var html = results[1];        
+	    var template = _.template(html);
 
+	    sidebarForThread.get(threadView).innerHTML = sidebarForThread.get(threadView).innerHTML + template({
+	    	customer: customer      		      
+	    });
+	});
+}
 
-  //   transformCustomer(customer);
-  //   transformSubscriptions(subscriptions);
-  //   transformInvoices(invoices);
-		// transformCharges(charges);
-  //   var stats = createStats(customer, subscriptions, invoices, charges);
-
-  //   var template = _.template(html);
-  //   sidebarForThread.get(threadView).innerHTML = sidebarForThread.get(threadView).innerHTML + template({
-  //     customer: customer,
-  //     invoices: invoices,
-  //     subscriptions: subscriptions,
-		// 	charges: charges,
-  //     stats: stats
-  //   });
-  });
-
+function get(url, params, headers) {
+	return Promise.resolve(
+		$.ajax({
+			url: url,
+			type: "GET",
+			data: params,
+			headers: headers
+		})
+	);
 }
