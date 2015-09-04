@@ -1,3 +1,6 @@
-# hr-inbox-extension
-## Work In Progress
-A tool that currently allows us to see key data from an email thread
+## hr-inbox-extension
+A tool that currently allows users to see if a hiring partner is mentioned in an email thread.
+
+## Usage
+To be used as an inbox extension
+
