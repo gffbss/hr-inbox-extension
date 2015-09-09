@@ -1,12 +1,11 @@
-<div class="stripe_sidebar_section">
-  <p class="title">Active Partners</p>
-  <%    
-    _.values(customer)
-    _.each(customer, function(sub) {
-      if (customer != "") {
+<div class="stripe_sidebar_section inboxsdk__tab_icon">
+  <!-- <p class="title"><img src="chrome-extension://lepjlhohfgiilhfjppdclfjieanhphoc/images/hr-infinity-logo.png">Active Partners</p> -->
+  <%        
+    _.each(customer, function(value, key) {
+      if (value.partner != "") {
   %>
         <div class="row main">
-          <div class="name"><%- customer %></div>
+          <div class="name"><%- value.partner %></div>
           <div class="spacer"></div>          
         </div>
 

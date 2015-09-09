@@ -1,3 +1,9 @@
+.inboxsdk__contentPanelContainer{
+  color: gray;
+  font-variant: small-caps;
+  font-size: 140%;  
+}
+
 .rounded_stripe {
   border-radius: 25px;
 }
@@ -38,7 +44,7 @@
 
 .row .name {
   color: black;
-  font-weight: bold;
+  font-weight: light;
 }
 
 .row .details {
