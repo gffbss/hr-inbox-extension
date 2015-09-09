@@ -2,7 +2,7 @@ var sidebarForThread = new WeakMap();
 var sidebarTemplatePromise = null;
 
 InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){	
-	// the SDK has been loaded		
+	// the SDK has been loaded			
 	sdk.Conversations.registerMessageViewHandlerAll(function(messageView){		
 		var threadView = messageView.getThreadView();		
 		var content = messageView.getBodyElement();
@@ -26,11 +26,9 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		var partnerArray = partnerTmp.split(',');
 		var emailArray = emailTmp.split(',');
 								
-		var newNew = partnerArray.diff(emailArray);		
-		console.log(newNew);
-		// var cleanedArr = cleanUpArray(newNew);
-		
-		addHiringPartnerSidebar(threadView, newNew);
+		var newNew = partnerArray.diff(emailArray);				
+		// var cleanedArr = cleanUpArray(newNew);		
+		cleanUpArray(threadView, newNew);
 	});
 
 });
@@ -43,39 +41,20 @@ Array.prototype.diff = function(getPartnerMatches) {
     for(var i = 0; i < this.length; i += 1) {
         if(getPartnerMatches.indexOf( this[i] ) > -1){
         	ret.push({
-			    key:   "partner",
-			    value: this[i]
-			});
-            // ret.push( this[i] );
+			    "partner": this[i]
+			});            
         }
     }
     return ret;
 };
 
-function cleanUpArray(partnersList){
-	if (partnersList.length < 2) {
-		return '-- No Partners Found --'
+function cleanUpArray(threadView, partnersList){
+	if (partnersList.length < 2) {		
+		noPartnerFound(threadView, partnersList)
 	} else {
-		var cleanArr = partnersList.join(" ").toUpperCase();	
-		return cleanArr;
+		addHiringPartnerSidebar(threadView, partnersList)
 	}	
 }
-
-// function addHiringPartnerSidebar(threadView, hiringPartner){	
-// 	var el = document.createElement('div');
-// 	// var	el.innerHTML = hiringPartner;
-// 	el.innerHTML = chrome.runtime.getURL('sidebarTemplate.html');
-
-
-// 		threadView.addSidebarContentPanel({
-// 			title: 'HR Hiring Partners',
-// 			el: el,
-// 			iconUrl: chrome.runtime.getURL('images/hr-infinity-logo.png')
-// 		});
-// 	if (!sidebarTemplatePromise) {
-//     	sidebarTemplatePromise = chrome.runtime.getURL('sidebarTemplate.html'), null, null;
-//   	}	  	
-// }
 
 function addHiringPartnerSidebar(threadView, customer) {
 	if (!sidebarForThread.has(threadView)) {
@@ -101,8 +80,7 @@ function addHiringPartnerSidebar(threadView, customer) {
 		console.log(customer);
 		console.log('-------');	    
 		var html = results[1];        
-	    var template = _.template(html);
-	    // transformPartnerList(customer)
+	    var template = _.template(html);	    
 	    sidebarForThread.get(threadView).innerHTML = sidebarForThread.get(threadView).innerHTML + template({
 	    	customer: customer      		      
 	    });
@@ -120,21 +98,15 @@ function get(url, params, headers) {
 	);
 }
 
-function createDict(array) {
-	var dict = [];
-	for (var i = 0; i < array.length; i++) {
 
+function noPartnerFound(threadView, partner) {	
+	if (!sidebarForThread.has(threadView)) {
+		sidebarForThread.set(threadView, document.createElement('div'));
+		
+		threadView.addSidebarContentPanel({
+			el: sidebarForThread.get(threadView),
+			title: "-- No Partners Found --",
+			iconUrl: chrome.runtime.getURL('images/hr-infinity-logo.png')
+		});
 	}
-	dict.push({
-    	key:   "keyName",
-    	value: "the value"
-	});
-}
-
-function transformPartnerList(partner) {	
-  for (var i = 0; i < partner.length; i++) {
-    var chg = partner[i];
-    console.log(chg);
-    // chg.imageUrl = chg.status == "succeeded" ? chrome.runtime.getURL('images/paid.png') : chrome.runtime.getURL('images/unpaid.png');
-  }
 }
