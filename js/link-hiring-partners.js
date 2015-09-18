@@ -74,7 +74,7 @@ function noPartnerFound(threadView, partner) {
 	}
 }	
 
-function addHiringPartnerSidebar(threadView, partners, emailContents) {
+function addHiringPartnerSidebar(threadView, partners) {
 	if (!sidebarForThread.has(threadView)) {
 		sidebarForThread.set(threadView, document.createElement('div'));
 		
@@ -89,17 +89,14 @@ function addHiringPartnerSidebar(threadView, partners, emailContents) {
 	    sidebarTemplatePromise = get(chrome.runtime.getURL('sidebarTemplate.html'), null, null);	        			    
 	}
 
-	Promise.all([		
-	  	emailContents,    		    
+	Promise.all([			  	    		    
 	    sidebarTemplatePromise,	 
 	    partners	    
 	])
-	.then(function(results) {  		  	
-		var emailContents = results[0]; 
-		var partner = results[2];				
-		
-		var html = results[1];        
+	.then(function(results) {  		  									
+		var html = results[0];        
 	    var template = _.template(html);		    
+	    var partner = results[1];		
 	    
 	    sidebarForThread.get(threadView).innerHTML = sidebarForThread.get(threadView).innerHTML + template({
 	    	partner: partner      		      
