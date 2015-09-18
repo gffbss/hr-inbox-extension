@@ -2,10 +2,10 @@
   <!-- <p class="title"><img src="chrome-extension://lepjlhohfgiilhfjppdclfjieanhphoc/images/hr-infinity-logo.png">Active Partners</p> -->
   <%        
     _.each(partner, function(value, key) {
-      if (value.partner != "") {
+      if (value != "") {
   %>
         <div class="row main">
-          <div class="name"><%- value.partner %></div>
+          <div class="name"><%- value %></div>
           <div class="spacer"></div>          
         </div>
 

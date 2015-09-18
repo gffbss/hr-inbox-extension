@@ -20,10 +20,10 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		])
 		.then(function(results) {  		  													
 			var partnerArray = cleanUpList(results[0]);			
-			var confirmedPartners = _.intersection(partnerArray, emailArray)
-			console.log(confirmedPartners);
-			var partnerObject = toObject(confirmedPartners);	
-			console.log(partnerObject);			
+			var confirmedPartners = _.intersection(partnerArray, emailArray);	
+			var filterNullEntries = _.filter(confirmedPartners);				
+			var partnerObject = toObject(filterNullEntries);				
+			
 			createSideBar(threadView, partnerObject); // NEED TO CHECK FOR EMPTY OBJECT	
 		});							
 	});
@@ -36,18 +36,20 @@ function toObject(arr) {
   return rv;
 }
 
-function cleanUpList(partners){
+function cleanUpList(partners){	
 	var partnerList = partners.split(/\s*,\s*/);
 	var partnerTmp = partnerList.join(',').toLowerCase();
 	var partnerArray = partnerTmp.split(',');
 	return partnerArray;
 }
 
-function createSideBar(threadView, partnersList){
-	if (partnersList.length < 2) {				
-		noPartnerFound(threadView, partnersList)
-	} else {
-		addHiringPartnerSidebar(threadView, partnersList)
+
+
+function createSideBar(threadView, partnersObject){	
+	if (partnersObject[0] != null) {	
+		addHiringPartnerSidebar(threadView, partnersObject)
+	} else {			
+		noPartnerFound(threadView, partnersObject)		
 	}	
 }
 
