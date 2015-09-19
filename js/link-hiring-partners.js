@@ -8,11 +8,12 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		var content = messageView.getBodyElement();
 		var cleanContent = content.getElementsByTagName('div');
 		var rawWords = jQuery(cleanContent).text();						
-		
-		var wordsFromEmail = rawWords.split(/\s+/g);	    
+		var removeSpecialCharacters = rawWords.replace(/[^\w\s]/gi, '');
+		var wordsFromEmail = removeSpecialCharacters.split(/\s+/g);
+		    
 		var emailTmp = wordsFromEmail.join(',').toLowerCase();		
 		var emailArray = emailTmp.split(',');		
-		
+		console.log(emailArray);
 		partners = get(chrome.runtime.getURL('new_hiring_partners.csv'), null, null);		
 		
 		Promise.all([			  		    
@@ -21,10 +22,10 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		.then(function(results) {  		  													
 			var partnerArray = cleanUpList(results[0]);			
 			var confirmedPartners = _.intersection(partnerArray, emailArray);	
-			var filterNullEntries = _.filter(confirmedPartners);				
+			var filterNullEntries = _.filter(confirmedPartners); // NEED TO CHECK FOR EMPTY OBJECT				
 			var partnerObject = toObject(filterNullEntries);				
 			
-			createSideBar(threadView, partnerObject); // NEED TO CHECK FOR EMPTY OBJECT	
+			createSideBar(threadView, partnerObject); 	
 		});							
 	});
 });
