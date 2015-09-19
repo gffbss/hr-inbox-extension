@@ -7,4 +7,5 @@ The core functionality of this tool relies on digesting a CSV file of names to s
 it is recomended that a CSV is provided.
 
 ## Unsupported Edge Cases
-Partners companies with multiple words in the name
+Partner companies with multiple words in the name
+
