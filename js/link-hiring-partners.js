@@ -10,10 +10,9 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		var rawWords = jQuery(cleanContent).text();						
 		var removeSpecialCharacters = rawWords.replace(/[^\w\s]/gi, '');
 		var wordsFromEmail = removeSpecialCharacters.split(/\s+/g);
-		    
 		var emailTmp = wordsFromEmail.join(',').toLowerCase();		
 		var emailArray = emailTmp.split(',');		
-		console.log(emailArray);
+		
 		partners = get(chrome.runtime.getURL('new_hiring_partners.csv'), null, null);		
 		
 		Promise.all([			  		    
@@ -21,7 +20,9 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		])
 		.then(function(results) {  		  													
 			var partnerArray = cleanUpList(results[0]);			
+			console.log(partnerArray)
 			var confirmedPartners = _.intersection(partnerArray, emailArray);	
+			console.log(confirmedPartners);
 			var filterNullEntries = _.filter(confirmedPartners); // NEED TO CHECK FOR EMPTY OBJECT				
 			var partnerObject = toObject(filterNullEntries);				
 			
@@ -43,8 +44,6 @@ function cleanUpList(partners){
 	var partnerArray = partnerTmp.split(',');
 	return partnerArray;
 }
-
-
 
 function createSideBar(threadView, partnersObject){	
 	if (partnersObject[0] != null) {	
@@ -83,7 +82,7 @@ function addHiringPartnerSidebar(threadView, partners) {
 		
 		threadView.addSidebarContentPanel({
 			el: sidebarForThread.get(threadView),
-			title: "HR Hiring Partners",
+			title: "Hiring Partner Mentioned",
 			iconUrl: chrome.runtime.getURL('images/hr-infinity-logo.png')
 		});
 	}
