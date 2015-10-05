@@ -11,9 +11,8 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		var removeSpecialCharacters = rawWords.replace(/[^\w\s]/gi, '');
 		var wordsFromEmail = removeSpecialCharacters.split(/\s+/g);
 		var emailTmp = wordsFromEmail.join(',').toLowerCase();		
-		var emailArray = emailTmp.split(',');		
-		
-		partners = get(chrome.runtime.getURL('All-HP-Updated-9-30-2015.csv'), null, null);		
+		var emailArray = emailTmp.split(',');				
+		partners = get(chrome.runtime.getURL('all-hp-10-1-2015.csv'), null, null);		
 		
 		Promise.all([			  		    
 	    	partners	    
