@@ -13,16 +13,14 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		var emailTmp = wordsFromEmail.join(',').toLowerCase();		
 		var emailArray = emailTmp.split(',');		
 		
-		partners = get(chrome.runtime.getURL('new_hiring_partners.csv'), null, null);		
+		partners = get(chrome.runtime.getURL('All-HP-Updated-9-30-2015.csv'), null, null);		
 		
 		Promise.all([			  		    
 	    	partners	    
 		])
 		.then(function(results) {  		  													
-			var partnerArray = cleanUpList(results[0]);			
-			console.log(partnerArray)
-			var confirmedPartners = _.intersection(partnerArray, emailArray);	
-			console.log(confirmedPartners);
+			var partnerArray = cleanUpList(results[0]);						
+			var confirmedPartners = _.intersection(partnerArray, emailArray);				
 			var filterNullEntries = _.filter(confirmedPartners); // NEED TO CHECK FOR EMPTY OBJECT				
 			var partnerObject = toObject(filterNullEntries);				
 			
