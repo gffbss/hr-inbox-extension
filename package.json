@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mdboop/hr-inbox-extension#readme",
   "dependencies": {
-    "fuzzyset.js": "0.0.1"
+    "fuzzyset.js": "0.0.1",
+    "lodash": "^4.5.1"
   }
 }
