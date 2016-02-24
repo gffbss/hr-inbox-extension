@@ -1,5 +1,5 @@
 ## What is it?
-A tool that allows users to see if a hiring partner is mentioned in an email thread.To be used as an inbox extension
+A tool that allows users to see if a hiring partner is mentioned in an email thread. To be used as a gmail extension
 
 ## What does it do?
  - Parses contents of a csv collecting the names of hiring partners
@@ -8,7 +8,7 @@ A tool that allows users to see if a hiring partner is mentioned in an email thr
  - Presents any mentions of a hiring partner in sidebar box 
 
 ## Who should use it?
- - Any team local or global that would like the convience of quickly seeing whether or not a hiring partner is mentioned in an email 
+ - Any team local or global that would like the convenience of quickly seeing whether or not a hiring partner is mentioned in an email 
 
 ## How do you set it up?
  - Currently it is deployed as a chrome extension and can be downloaded in the chrome webstore
@@ -18,6 +18,6 @@ A tool that allows users to see if a hiring partner is mentioned in an email thr
  - The core functionality of this tool relies on digesting a CSV file of names to sort through. Therefore in the current version
 it is recomended that a CSV is provided.
 
-## Unsupported Edge Cases
- - Partner companies with multiple words in the name
+## Current Edge Cases
+ - 'Velope', 'Cisco'
 
