@@ -1,0 +1,22 @@
+{
+  "name": "hr-inbox-extension",
+  "version": "2.0.0",
+  "description": "A tool that allows users to see if a hiring partner is mentioned in an email thread.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdboop/hr-inbox-extension.git"
+  },
+  "author": "Geoff Boss, Matthew Brooks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdboop/hr-inbox-extension/issues"
+  },
+  "homepage": "https://github.com/mdboop/hr-inbox-extension#readme",
+  "dependencies": {
+    "fuzzyset.js": "0.0.1"
+  }
+}
