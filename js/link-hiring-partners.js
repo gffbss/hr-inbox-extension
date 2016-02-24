@@ -16,7 +16,7 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 	    	partners
 		])
 		.then(function(results) {  		  													
-			var partnerArray = cleanUpList(results[0], removeSpecialCharacters);											
+			var partnerArray = findPartnerMentions(results[0], removeSpecialCharacters);											
 			var partnerObject = toObject(partnerArray);				
 			
 			createSideBar(threadView, partnerObject); 	
@@ -31,7 +31,7 @@ function toObject(arr) {
   return rv;
 }
 
-function cleanUpList(partners, words){							
+function findPartnerMentions(partners, words){							
 	var wordsLower = words.toLowerCase()
 	partners = partners.split('\n');
 	
