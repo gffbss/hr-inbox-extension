@@ -21,3 +21,6 @@ it is recomended that a CSV is provided.
 ## Current Edge Cases
  - 'Velope', 'Cisco'
 
+## Todo:
+ - Add Safari compatibility
+ - Fuzzyset.js 
