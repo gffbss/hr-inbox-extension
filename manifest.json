@@ -1,7 +1,7 @@
 {
   "name": "Hack Reactor Gmail Extension",
   "description": "Quickly determine if a hiring partner is mentioned in your email thread.",
-  "version": "0.1.3",
+  "version": "0.2",
   "icons": {
     "128": "images/hr-infinity-logo.png"
   },
