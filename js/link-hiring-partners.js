@@ -9,19 +9,15 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 		var cleanContent = content.getElementsByTagName('div');
 		var rawWords = jQuery(cleanContent).text();						
 		var removeSpecialCharacters = rawWords.replace(/[^\w\s]/gi, '');
-		var wordsFromEmail = removeSpecialCharacters.split(/\s+/g);
-		var emailTmp = wordsFromEmail.join(',').toLowerCase();		
-		var emailArray = emailTmp.split(',');				
-		partners = get(chrome.runtime.getURL('all-hp-10-1-2015.csv'), null, null);		
+						
+		partners = get(chrome.runtime.getURL('updated-hp-2-1-2016.csv'), null, null);				
 		
 		Promise.all([			  		    
-	    	partners	    
+	    	partners
 		])
 		.then(function(results) {  		  													
-			var partnerArray = cleanUpList(results[0]);						
-			var confirmedPartners = _.intersection(partnerArray, emailArray);				
-			var filterNullEntries = _.filter(confirmedPartners); // NEED TO CHECK FOR EMPTY OBJECT				
-			var partnerObject = toObject(filterNullEntries);				
+			var partnerArray = cleanUpList(results[0], removeSpecialCharacters);											
+			var partnerObject = toObject(partnerArray);				
 			
 			createSideBar(threadView, partnerObject); 	
 		});							
@@ -35,11 +31,19 @@ function toObject(arr) {
   return rv;
 }
 
-function cleanUpList(partners){	
-	var partnerList = partners.split(/\s*,\s*/);
-	var partnerTmp = partnerList.join(',').toLowerCase();
-	var partnerArray = partnerTmp.split(',');
-	return partnerArray;
+function cleanUpList(partners, words){							
+	var wordsLower = words.toLowerCase()
+	partners = partners.split('\n');
+	
+	// Clean up partner array to remove end of line and strange eol characters
+	partners = partners.map(function (partner) {
+		return partner.toLowerCase().slice(0, partner.length - 2);
+	})
+		
+	// Filter our array and string to find matches
+	return _.filter(partners, function(partner){
+		return wordsLower.includes(partner);
+	});	
 }
 
 function createSideBar(threadView, partnersObject){	
