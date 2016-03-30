@@ -1,3 +1,8 @@
+// BSD license
+// Python author Mike Axiak <mike@axiak.net>
+// JavaScript port Glen Chiacchieri (http://glench.com)
+// https://github.com/Glench/fuzzyset.js
+
 (function() {
 
 var FuzzySet = function(arr, useLevenshtein, gramSizeLower, gramSizeUpper) {
