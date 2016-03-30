@@ -11,7 +11,7 @@
         "https://mail.google.com/*",
         "https://inbox.google.com/*"
       ],
-      "js": ["js/jquery.min.js", "js/underscore.min.js", "js/inboxsdk.js","js/link-hiring-partners.js", "js/papaparse.min.js", "node_modules/fuzzyset.js/lib/fuzzyset.js"],
+      "js": ["js/jquery.min.js", "js/underscore.min.js", "js/inboxsdk.js","js/link-hiring-partners.js", "js/papaparse.min.js", "js/fuzzyset.js"],
       "css": ["style.css"],
       "run_at": "document_end"
     }
