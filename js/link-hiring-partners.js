@@ -3,12 +3,13 @@ var sidebarTemplatePromise = null;
 
 InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 	// the SDK has been loaded
+
 	sdk.Conversations.registerMessageViewHandlerAll(function(messageView){
 		var threadView = messageView.getThreadView();
 		var content = messageView.getBodyElement();
 		var cleanContent = content.getElementsByTagName('div');
-		var rawWords = jQuery(cleanContent).text();
-		var removeSpecialCharacters = rawWords.replace(/[^\w\s]/gi, '');
+		var rawText = jQuery(cleanContent).text();
+		rawText = rawText.replace(/[^\w\s]/gi, '');
 
 		partners = get(chrome.runtime.getURL('updated-hp-2-1-2016.csv'), null, null);
 
@@ -16,10 +17,14 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 	    	partners
 		])
 		.then(function(results) {
-			var partnerArray = findPartnerMentions(results[0], removeSpecialCharacters);
+			var partnerArray = fuzzyFindPartnerMentions(results[0], rawText);
 			var partnerObject = toObject(partnerArray);
 
 			createSideBar(threadView, partnerObject);
+		})
+		.catch(function (err) {
+			console.log("This is the error");
+			console.log(err);
 		});
 	});
 });
@@ -27,25 +32,33 @@ InboxSDK.load('1', 'sdk_hr-hiring-link_6e178ad679').then(function(sdk){
 function toObject(arr) {
   var rv = {};
   for (var i = 0; i < arr.length; ++i)
-    if (arr[i] !== undefined) rv[i] = arr[i];
+    if (arr[i] !== undefined) rv[i] = arr[i].partner;
   return rv;
 }
 
-function fuzzyFindPartnerMentions (emailText, partners) {
-
+function fuzzyFindPartnerMentions (partners, emailText) {
+	partners = partners.split('\n');
 	//creates set from array of words in email
 	var sourceSet = FuzzySet(emailText.split(' '));
 
 	return partners.map(function (partner) {
+	  match = sourceSet.get(partner);
+	  if(match !== null) {
+			return {
+				match: match[0],
+				partner: partner
+			};
+	  } else {
+	  	return {
+	  		match: [0,null],
+	  		partner: partner
+	  	};
+	  }
 		// For some reason, FuzzySet instance's get method return an array of arrays,
 		// so we take the first and only element to get the array we want, e.g. [0.57889, 'Solar Cities']
 
 		// The get method also returns the text from the set that matches,
 		// so we will also hang onto the partner name from our csv file in case we need it
-		return {
-			match: sourceSet.get(partner)[0],
-			partner: partner
-		};
 	}).filter(function (result) {
 
 		// Initially, let's use 0.5 as the cut off for fuzzy matches
