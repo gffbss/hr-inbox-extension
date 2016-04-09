@@ -15,7 +15,7 @@ Currently it is deployed as a chrome extension and can be downloaded in the chro
 
 ### For Developers
 1. Fork and clone the repo
-2. Open Chrome, navigate to [](chrome://extensions/)
+2. Open Chrome, navigate to (chrome://extensions/)
 3. Ensure developer mode is checked
 4. Click `Load Unpacked Extension...`
 5. Select this repo's directory on your local machine
