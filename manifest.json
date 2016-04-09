@@ -11,7 +11,7 @@
         "https://mail.google.com/*",
         "https://inbox.google.com/*"
       ],
-      "js": ["js/jquery.min.js", "js/underscore.min.js", "js/inboxsdk.js","js/link-hiring-partners.js", "js/papaparse.min.js"],
+      "js": ["js/jquery.min.js", "js/underscore.min.js", "js/inboxsdk.js","js/link-hiring-partners.js", "js/fuzzyset.js"],
       "css": ["style.css"],
       "run_at": "document_end"
     }
@@ -23,11 +23,11 @@
   "web_accessible_resources": [
     "images/hr-logo.png",
     "images/hr-logo-mini.png",
-    "images/hr-infinity-logo.png",    
+    "images/hr-infinity-logo.png",
     "sidebarTemplate.html",
     "new-hp-2-20-2016.csv",
     "updated-hp-2-1-2016.csv",
-    "all-hp-10-1-2015.csv"    
+    "all-hp-10-1-2015.csv"
   ],
   "manifest_version": 2
 }

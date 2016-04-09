@@ -1,8 +1,10 @@
-VENV 
+VENV
 .idea/
 
 *.log
 .cache
 *.iml
+
+node_modules/
 
 .DS_Store
